@@ -1,9 +1,17 @@
-<script setup lang="ts">
-import TheWelcome from "@/components/TheWelcome.vue";
+<script>
+import HomeContent from "@/components/HomeContent.vue";
+export default {
+  components: { HomeContent },
+};
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <home-content />
   </main>
 </template>
+<style lang="scss" scoped>
+main {
+  padding: 0 16px;
+}
+</style>
