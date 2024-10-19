@@ -91,8 +91,4 @@ td {
   text-align: left;
   white-space: nowrap;
 }
-
-th {
-  background-color: #f4f4f4;
-}
 </style>
