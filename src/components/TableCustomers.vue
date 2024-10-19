@@ -1,18 +1,18 @@
 <script>
-import { getDatabase, ref as dbRef, get, remove } from "firebase/database";
-
+import { ref as dbRef, get, remove } from "firebase/database";
+import firebaseService from "@/firebase";
 export default {
   data() {
     return {
       tableData: [],
     };
   },
-  created() {
+  mounted() {
     this.fetchClients();
   },
   methods: {
     async fetchClients() {
-      const db = getDatabase();
+      const db = firebaseService.getDatabase();
       const clientsRef = dbRef(db, "clients");
 
       try {
@@ -32,7 +32,7 @@ export default {
       }
     },
     async onDelete(client) {
-      const db = getDatabase();
+      const db = firebaseService.getDatabase();
       const clientRef = dbRef(db, `clients/${client.id}`);
 
       try {

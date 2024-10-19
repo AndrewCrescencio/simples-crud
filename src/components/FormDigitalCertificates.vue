@@ -1,6 +1,6 @@
 <script>
 import { ref, push } from "firebase/database";
-import { database } from "@/firebase";
+import firebaseService from "@/firebase";
 
 export default {
   data() {
@@ -15,7 +15,8 @@ export default {
   methods: {
     async adicionarCertificado() {
       const clientId = "client1";
-      const certificatesRef = ref(database, `clients/${clientId}/certificates`);
+      const db = firebaseService.getDatabase();
+      const certificatesRef = ref(db, `clients/${clientId}/certificates`);
 
       try {
         const response = await push(certificatesRef, {

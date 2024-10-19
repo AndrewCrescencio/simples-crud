@@ -1,6 +1,6 @@
 <script>
 import { ref, push } from "firebase/database";
-import { database } from "@/firebase";
+import firebaseService from "@/firebase";
 
 export default {
   name: "FormClient",
@@ -23,7 +23,8 @@ export default {
         form.reportValidity();
         return;
       }
-      const clientsRef = ref(database, "clients");
+      const db = firebaseService.getDatabase();
+      const clientsRef = ref(db, "clients");
       try {
         await push(clientsRef, this.form);
         this.formMessage = "Cliente cadastrado com sucesso!";
