@@ -76,6 +76,7 @@ export default {
   }
   @media (prefers-color-scheme: dark) {
     background-color: var(--vt-c-black-mute);
+    color: var(--color-text-on-component);
   }
 
   &__title {
