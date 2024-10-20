@@ -1,47 +1,14 @@
 <script>
-import { ref as dbRef, get, remove } from "firebase/database";
-import firebaseService from "@/firebase";
 export default {
-  data() {
-    return {
-      tableData: [],
-    };
-  },
-  mounted() {
-    this.fetchClients();
+  props: {
+    tableData: {
+      type: Array,
+      required: true,
+    },
   },
   methods: {
-    async fetchClients() {
-      const db = firebaseService.getDatabase();
-      const clientsRef = dbRef(db, "clients");
-
-      try {
-        const snapshot = await get(clientsRef);
-        if (snapshot.exists()) {
-          console.log("valores", snapshot.val());
-          const data = snapshot.val();
-          this.tableData = Object.keys(data).map((key) => ({
-            id: key,
-            ...data[key],
-          }));
-        } else {
-          console.log("Nenhum cliente encontrado.");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar os clientes:", error);
-      }
-    },
-    async onDelete(client) {
-      const db = firebaseService.getDatabase();
-      const clientRef = dbRef(db, `clients/${client.id}`);
-
-      try {
-        await remove(clientRef);
-        console.log(`Cliente com ID ${client.id} foi deletado com sucesso.`);
-        this.tableData = this.tableData.filter((c) => c.id !== client.id);
-      } catch (error) {
-        console.error("Erro ao deletar o cliente:", error);
-      }
+    onDelete(client) {
+      this.$emit("deleteClient", client);
     },
   },
 };
@@ -67,7 +34,7 @@ export default {
           <td>{{ client.mobile }}</td>
           <td>
             <button>Editar</button>
-            <button @click="onDelete(client)">Deletar</button>
+            <button @click="deleteClient(client)">Deletar</button>
           </td>
         </tr>
       </tbody>
