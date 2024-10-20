@@ -116,7 +116,7 @@ export default {
   }
 
   &__button {
-    outline: 1px solid #e2e8f0;
+    outline: 1px solid var(--vt-c-divider);
     border-radius: 16px;
     padding: 24px;
     background-color: #f8fafc;
