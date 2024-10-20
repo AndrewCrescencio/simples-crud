@@ -1,10 +1,20 @@
 <script>
+import IconClose from "@/components/icons/IconClose.vue";
+
 export default {
+  components: { IconClose },
+  props: {
+    title: {
+      type: String,
+      required: false,
+    },
+  },
   methods: {
     openModal() {
       this.$refs.modal.showModal();
     },
     closeModal() {
+      console.log("closeModal");
       this.$refs.modal.close();
     },
   },
@@ -14,19 +24,22 @@ export default {
 <template>
   <transition name="modal">
     <dialog ref="modal" class="modal">
-      <div class="modal-header">
-        <slot name="header"> default header </slot>
-        <button class="modal-close-button" @click="closeModal">X</button>
+      <button class="modal__button modal__button--close" @click="closeModal()">
+        <icon-close />
+      </button>
+
+      <slot name="header">
+        <div class="modal__header">
+          <p v-if="title" class="modal__title">{{ title }}</p>
+        </div>
+      </slot>
+
+      <div class="modal__body">
+        <slot name="body"></slot>
       </div>
 
-      <div class="modal-body">
-        <slot name="body"> default body </slot>
-      </div>
-
-      <div class="modal-footer">
-        <slot name="footer">
-          <button class="modal-default-button" @click="closeModal">OK</button>
-        </slot>
+      <div class="modal__footer">
+        <slot name="footer"> </slot>
       </div>
     </dialog>
   </transition>
@@ -37,13 +50,59 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
+  padding: 0;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  width: calc(100% - 32px);
   min-width: 300px;
   max-width: 600px;
-  width: 100%;
+  border: 1px solid var(--vt-c-divider);
+  color: inherit;
+  background-color: var(--color-background-soft);
+
+  &__header {
+    width: 100%;
+    font-size: 20px;
+    color: var(--color-heading);
+    padding: 0 16px;
+  }
+
+  &__title {
+    margin-top: 6px;
+  }
+
+  &__body {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  &__footer {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  &__button {
+    z-index: 1;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 4px;
+    border: transparent;
+    background-color: transparent;
+    color: var(--color-heading);
+
+    &--close {
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 }
 </style>
