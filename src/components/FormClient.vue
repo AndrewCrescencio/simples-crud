@@ -1,9 +1,19 @@
 <script>
-import { ref, push } from "firebase/database";
+import { ref, push, update } from "firebase/database";
 import firebaseService from "@/firebase";
 
 export default {
   name: "FormClient",
+  props: {
+    client: {
+      type: Object,
+      default: () => null,
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       form: {
@@ -16,39 +26,69 @@ export default {
       formMessage: null,
     };
   },
+  computed: {
+    isPopulated() {
+      return this.isEdit && this.client;
+    },
+  },
+  watch: {
+    isPopulated: {
+      immediate: true,
+      handler(isPopulated) {
+        if (isPopulated) {
+          this.populateForm();
+        } else {
+          this.clearForm();
+        }
+      },
+    },
+  },
   methods: {
-    async createClient() {
-      const form = this.$el.querySelector("form");
-      if (!form.checkValidity()) {
-        form.reportValidity();
+    populateForm() {
+      this.form = { ...this.client };
+    },
+    async handleSubmit() {
+      if (!this.$refs.form.checkValidity()) {
+        this.$refs.form.reportValidity();
         return;
       }
+
       const db = firebaseService.getDatabase();
       const clientsRef = ref(db, "clients");
+
       try {
-        await push(clientsRef, this.form);
-        this.formMessage = "Cliente cadastrado com sucesso!";
+        if (this.isPopulated && this.client.id) {
+          const clientRef = ref(db, `clients/${this.client.id}`);
+          await update(clientRef, this.form);
+          this.formMessage = "Cliente atualizado com sucesso!";
+        } else {
+          await push(clientsRef, this.form);
+          this.formMessage = "Cliente cadastrado com sucesso!";
+        }
+
         this.clearForm();
         this.$emit("submit");
       } catch (error) {
-        console.error("Erro ao cadastrar cliente:", error);
+        console.error("Erro ao salvar o cliente:", error);
         this.formMessage =
-          error.message ?? "Erro ao cadastrar cliente. Tente novamente.";
+          error.message ?? "Erro ao salvar cliente. Tente novamente.";
       }
     },
     clearForm() {
-      this.form.first_name = "";
-      this.form.last_name = "";
-      this.form.email = "";
-      this.form.phone = "";
-      this.form.mobile = "";
+      this.form = {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        mobile: "",
+      };
     },
   },
 };
 </script>
 <template>
   <div>
-    <form class="form" @submit.prevent="createClient" novalidate>
+    <form ref="form" class="form" @submit.prevent="handleSubmit" novalidate>
       <div class="form__control">
         <label for="first_name">Nome:</label>
         <input
@@ -115,7 +155,9 @@ export default {
         />
       </div>
 
-      <button class="form__button" type="submit">Cadastrar cliente</button>
+      <button class="form__button" type="submit">
+        {{ isEdit ? "Editar Cliente" : "Cadastrar Cliente" }}
+      </button>
     </form>
 
     <!-- TODO: mensagem de erro ou sucesso -->
