@@ -2,14 +2,15 @@
 import { ref as dbRef, get, remove } from "firebase/database";
 import firebaseService from "@/firebase";
 import TableCustomers from "@/components/TableCustomers.vue";
-import TheModal from "@/components/TheModal.vue";
-import FormClient from "@/components/FormClient.vue";
+import ClientModal from "@/components/ClientModal.vue";
 
 export default {
-  components: { TableCustomers, TheModal, FormClient },
+  components: { TableCustomers, ClientModal },
   data() {
     return {
       tableData: [],
+      selectedClient: null,
+      isEdit: false,
     };
   },
   mounted() {
@@ -17,10 +18,10 @@ export default {
   },
   methods: {
     openModal() {
-      this.$refs.modal.openModal();
+      this.$refs.clientModal.openModal();
     },
     closeModal() {
-      this.$refs.modal.closeModal();
+      this.$refs.clientModal.closeModal();
     },
     async fetchClients() {
       const db = firebaseService.getDatabase();
@@ -52,6 +53,19 @@ export default {
         console.error("Erro ao deletar o cliente:", error);
       }
     },
+    onEdit(client) {
+      this.selectedClient = client;
+      this.isEdit = true;
+      this.$nextTick(() => {
+        this.openModal();
+      });
+    },
+    onAddClient() {
+      console.log("onAddClient");
+      this.selectedClient = null;
+      this.isEdit = false;
+      this.openModal();
+    },
     onFormClientSubmit() {
       this.closeModal();
       this.fetchClients();
@@ -63,21 +77,23 @@ export default {
   <main>
     <div class="header">
       <h2 class="title">Clientes</h2>
-      <button @click="openModal">Adicionar cliente</button>
+      <button @click="onAddClient">Adicionar cliente</button>
     </div>
     <TableCustomers
       v-if="tableData.length"
       :tableData="tableData"
       @deleteClient="onDelete"
+      @editClient="onEdit"
     />
-    <button v-else @click="openModal" class="button--no-clients">
+    <button v-else @click="onAddClient" class="button--no-clients">
       Sem clientes cadastrados, gostaria de cadastro um novo cliente?
     </button>
-    <TheModal ref="modal" title="Cadastrar cliente">
-      <template v-slot:body>
-        <form-client @submit="onFormClientSubmit" />
-      </template>
-    </TheModal>
+    <client-modal
+      ref="clientModal"
+      :client="selectedClient"
+      :isEdit="isEdit"
+      @submit="onFormClientSubmit"
+    />
   </main>
 </template>
 <style lang="scss" scoped>
