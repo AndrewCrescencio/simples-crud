@@ -7,7 +7,7 @@ export default {
     },
   },
   methods: {
-    onDelete(client) {
+    deleteClient(client) {
       this.$emit("deleteClient", client);
     },
   },
