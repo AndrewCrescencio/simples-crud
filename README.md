@@ -1,6 +1,6 @@
 # simples-crud
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 2 in Vite, Sass and Firebase.
 
 ## Recommended IDE Setup
 
