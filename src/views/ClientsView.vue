@@ -65,7 +65,14 @@ export default {
       <h2 class="title">Clientes</h2>
       <button @click="openModal">Adicionar cliente</button>
     </div>
-    <TableCustomers :tableData="tableData" @deleteClient="onDelete" />
+    <TableCustomers
+      v-if="tableData.length"
+      :tableData="tableData"
+      @deleteClient="onDelete"
+    />
+    <button v-else @click="openModal" class="button--no-clients">
+      Sem clientes cadastrados, gostaria de cadastro um novo cliente?
+    </button>
     <TheModal ref="modal" title="Cadastrar cliente">
       <template v-slot:body>
         <form-client @submit="onFormClientSubmit" />
@@ -88,5 +95,9 @@ main {
   .title {
     margin-bottom: calc(var(--section-gap) / 4);
   }
+}
+
+.button--no-clients {
+  cursor: pointer;
 }
 </style>
