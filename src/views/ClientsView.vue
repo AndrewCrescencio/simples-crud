@@ -17,11 +17,9 @@ export default {
   },
   methods: {
     openModal() {
-      console.log("openModal was called");
       this.$refs.modal.openModal();
     },
     closeModal() {
-      console.log("closeModal was called");
       this.$refs.modal.closeModal();
     },
     async fetchClients() {
@@ -31,14 +29,13 @@ export default {
       try {
         const snapshot = await get(clientsRef);
         if (snapshot.exists()) {
-          console.log("valores", snapshot.val());
           const data = snapshot.val();
           this.tableData = Object.keys(data).map((key) => ({
             id: key,
             ...data[key],
           }));
         } else {
-          console.log("Nenhum cliente encontrado.");
+          console.error("Nenhum cliente encontrado.");
         }
       } catch (error) {
         console.error("Erro ao buscar os clientes:", error);
@@ -50,14 +47,12 @@ export default {
 
       try {
         await remove(clientRef);
-        console.log(`Cliente com ID ${client.id} foi deletado com sucesso.`);
         this.tableData = this.tableData.filter((c) => c.id !== client.id);
       } catch (error) {
         console.error("Erro ao deletar o cliente:", error);
       }
     },
     onFormClientSubmit() {
-      console.log("onFormClientSubmit");
       this.closeModal();
       this.fetchClients();
     },

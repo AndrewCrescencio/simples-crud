@@ -14,7 +14,6 @@ export default {
       this.$refs.modal.showModal();
     },
     closeModal() {
-      console.log("closeModal");
       this.$refs.modal.close();
     },
   },
@@ -39,7 +38,7 @@ export default {
       </div>
 
       <div class="modal__footer">
-        <slot name="footer"> </slot>
+        <slot name="footer"></slot>
       </div>
     </dialog>
   </transition>

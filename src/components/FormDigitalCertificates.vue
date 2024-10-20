@@ -19,14 +19,13 @@ export default {
       const certificatesRef = ref(db, `clients/${clientId}/certificates`);
 
       try {
-        const response = await push(certificatesRef, {
+        await push(certificatesRef, {
           name: this.form.name,
           expiry_date: this.form.expiry_date,
           createdAt: {
             ".sv": "timestamp",
           },
         });
-        console.log(response);
         this.mensagem = "Certificado adicionado com sucesso!";
         this.clearForm();
       } catch (error) {
