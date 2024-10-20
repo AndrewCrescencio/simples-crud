@@ -29,6 +29,7 @@ export default {
         await push(clientsRef, this.form);
         this.formMessage = "Cliente cadastrado com sucesso!";
         this.clearForm();
+        this.$emit("submit");
       } catch (error) {
         console.error("Erro ao cadastrar cliente:", error);
         this.formMessage =
