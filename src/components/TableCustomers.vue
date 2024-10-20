@@ -10,6 +10,9 @@ export default {
     deleteClient(client) {
       this.$emit("deleteClient", client);
     },
+    editClient(client) {
+      this.$emit("editClient", client);
+    },
   },
 };
 </script>
@@ -33,7 +36,7 @@ export default {
           <td>{{ client.phone }}</td>
           <td>{{ client.mobile }}</td>
           <td>
-            <button>Editar</button>
+            <button @click="editClient(client)">Editar</button>
             <button @click="deleteClient(client)">Deletar</button>
           </td>
         </tr>
