@@ -1,9 +1,20 @@
 <script>
+import { ref as dbRef, get, remove } from "firebase/database";
+import firebaseService from "@/firebase";
 import TableCustomers from "@/components/TableCustomers.vue";
 import TheModal from "@/components/TheModal.vue";
+import FormClient from "@/components/FormClient.vue";
 
 export default {
-  components: { TableCustomers, TheModal },
+  components: { TableCustomers, TheModal, FormClient },
+  data() {
+    return {
+      tableData: [],
+    };
+  },
+  mounted() {
+    this.fetchClients();
+  },
   methods: {
     openModal() {
       console.log("openModal was called");
@@ -12,6 +23,43 @@ export default {
     closeModal() {
       console.log("closeModal was called");
       this.$refs.modal.closeModal();
+    },
+    async fetchClients() {
+      const db = firebaseService.getDatabase();
+      const clientsRef = dbRef(db, "clients");
+
+      try {
+        const snapshot = await get(clientsRef);
+        if (snapshot.exists()) {
+          console.log("valores", snapshot.val());
+          const data = snapshot.val();
+          this.tableData = Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          }));
+        } else {
+          console.log("Nenhum cliente encontrado.");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar os clientes:", error);
+      }
+    },
+    async onDelete(client) {
+      const db = firebaseService.getDatabase();
+      const clientRef = dbRef(db, `clients/${client.id}`);
+
+      try {
+        await remove(clientRef);
+        console.log(`Cliente com ID ${client.id} foi deletado com sucesso.`);
+        this.tableData = this.tableData.filter((c) => c.id !== client.id);
+      } catch (error) {
+        console.error("Erro ao deletar o cliente:", error);
+      }
+    },
+    onFormClientSubmit() {
+      console.log("onFormClientSubmit");
+      this.closeModal();
+      this.fetchClients();
     },
   },
 };
@@ -22,18 +70,17 @@ export default {
       <h2 class="title">Clientes</h2>
       <button @click="openModal">Adicionar cliente</button>
     </div>
-    <TableCustomers />
-    <TheModal ref="modal">
-      <template v-slot:header> Custom Header </template>
-      <template v-slot:body> This is a custom body content. </template>
-      <!-- <template v-slot:footer>
-        <button @click="closeModal">Close</button>
-      </template> -->
+    <TableCustomers :tableData="tableData" @deleteClient="onDelete" />
+    <TheModal ref="modal" title="Cadastrar cliente">
+      <template v-slot:body>
+        <form-client @submit="onFormClientSubmit" />
+      </template>
     </TheModal>
   </main>
 </template>
 <style lang="scss" scoped>
 main {
+  width: 100%;
   .header {
     display: flex;
     align-items: center;
