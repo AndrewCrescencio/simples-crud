@@ -161,7 +161,7 @@ export default {
     </form>
 
     <!-- TODO: mensagem de erro ou sucesso -->
-    <div v-if="formMessage">{{ formMessage }}</div>
+    <!-- <div v-if="formMessage">{{ formMessage }}</div> -->
   </div>
 </template>
 <style lang="scss" scoped>
