@@ -7,6 +7,9 @@ import "./assets/styles/main.scss";
 
 import firebaseService from "./firebase";
 
+import VueTheMask from "vue-the-mask";
+Vue.use(VueTheMask);
+
 firebaseService.initializeFirebase();
 new Vue({
   router,

@@ -17,6 +17,9 @@ importers:
       vue-router:
         specifier: ^3.5.4
         version: 3.6.5(vue@2.7.16)
+      vue-the-mask:
+        specifier: ^0.11.1
+        version: 0.11.1
     devDependencies:
       '@rushstack/eslint-patch':
         specifier: ^1.1.0
@@ -1228,6 +1231,9 @@ packages:
     resolution: {integrity: sha512-VYXZQLtjuvKxxcshuRAwjHnciqZVoXAjTjcqBTz4rKc8qih9g9pI3hbDjmqXaHdgL3v8pV6P8Z335XvHzESxLQ==}
     peerDependencies:
       vue: ^2
+
+  vue-the-mask@0.11.1:
+    resolution: {integrity: sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==}
 
   vue@2.7.16:
     resolution: {integrity: sha512-4gCtFXaAA3zYZdTp5s4Hl2sozuySsgz4jy1EnpBHNfpMa9dK1ZCG7viqBPCwXtmgc8nHqUsAu3G4gtmXkkY3Sw==}
@@ -2505,6 +2511,8 @@ snapshots:
   vue-router@3.6.5(vue@2.7.16):
     dependencies:
       vue: 2.7.16
+
+  vue-the-mask@0.11.1: {}
 
   vue@2.7.16:
     dependencies:
