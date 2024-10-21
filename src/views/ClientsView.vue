@@ -77,7 +77,9 @@ export default {
   <main>
     <div class="header">
       <h2 class="title">Clientes</h2>
-      <button @click="onAddClient">Adicionar cliente</button>
+      <button class="button button--success" @click="onAddClient">
+        Adicionar cliente
+      </button>
     </div>
     <table-customers
       v-if="tableData.length"

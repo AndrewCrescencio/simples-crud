@@ -72,22 +72,4 @@ td {
   text-align: left;
   white-space: nowrap;
 }
-
-.button {
-  cursor: pointer;
-  height: 24px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  place-content: center;
-  color: var(--vt-c-white-pure);
-  border: transparent;
-  border-radius: 4px;
-  &--success {
-    background-color: var(--vt-c-green);
-  }
-  &--danger {
-    background-color: var(--vt-c-red);
-  }
-}
 </style>
