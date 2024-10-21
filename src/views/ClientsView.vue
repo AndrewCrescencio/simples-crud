@@ -79,7 +79,7 @@ export default {
       <h2 class="title">Clientes</h2>
       <button @click="onAddClient">Adicionar cliente</button>
     </div>
-    <TableCustomers
+    <table-customers
       v-if="tableData.length"
       :tableData="tableData"
       @deleteClient="onDelete"
