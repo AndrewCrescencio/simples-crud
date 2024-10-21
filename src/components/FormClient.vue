@@ -130,28 +130,28 @@ export default {
       <div class="form__control">
         <label for="phone">Telefone Fixo:</label>
         <input
+          v-mask="'(##)####-####'"
           class="form__input"
           type="tel"
           v-model.trim="form.phone"
           id="phone"
           required
-          maxlength="10"
-          pattern="[0-9]{10}"
-          title="Digite um número de telefone válido com 10 dígitos"
+          maxlength="13"
+          title="Digite um número de telefone válido"
         />
       </div>
 
       <div class="form__control">
         <label for="mobile">Celular:</label>
         <input
+          v-mask="'(##)#####-####'"
           class="form__input"
           type="tel"
           v-model.trim="form.mobile"
           id="mobile"
           required
-          maxlength="11"
-          pattern="[0-9]{11}"
-          title="Digite um número de celular válido com 11 dígitos"
+          maxlength="14"
+          title="Digite um número de celular válido"
         />
       </div>
 
