@@ -36,8 +36,19 @@ export default {
           <td>{{ client.phone }}</td>
           <td>{{ client.mobile }}</td>
           <td>
-            <button @click="editClient(client)">Editar</button>
-            <button @click="deleteClient(client)">Deletar</button>
+            <button
+              style="margin-right: 8px"
+              class="button button--danger"
+              @click="editClient(client)"
+            >
+              Editar
+            </button>
+            <button
+              class="button button--success"
+              @click="deleteClient(client)"
+            >
+              Deletar
+            </button>
           </td>
         </tr>
       </tbody>
@@ -45,7 +56,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   width: 100%;
   overflow-x: auto;
@@ -60,5 +71,23 @@ td {
   padding: 8px;
   text-align: left;
   white-space: nowrap;
+}
+
+.button {
+  cursor: pointer;
+  height: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  place-content: center;
+  color: var(--vt-c-white-pure);
+  border: transparent;
+  border-radius: 4px;
+  &--success {
+    background-color: var(--vt-c-green);
+  }
+  &--danger {
+    background-color: var(--vt-c-red);
+  }
 }
 </style>
